@@ -2,7 +2,7 @@ function Conv_Enc(image_file)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Convolutional Encoding with Viterbi Decoding
 %
-%This program performs Convolutional Encoding with Viterbi Decoding
+%This function performs Convolutional Encoding with Viterbi Decoding
 %It also evaluates the effect of noise of encoding
 %
 %function Conv_Enc(image_file)
@@ -35,12 +35,12 @@ decodedData = vitdec(codedData,trellis,length(data),'trunc','hard');
 %Number of Bit error between original and viterbi decoded image
 x = biterr(data,decodedData);
 
-fprintf('Q1. Convolutional Encoded Data \n')
+fprintf('Convolutional Encoded Data \n')
 fprintf('codedData = convenc(data,trellis)\n')
 fprintf('\n')
 pause(time)
 
-fprintf('Q3. Viterbi Decoding\n')
+fprintf('Viterbi Decoding\n')
 fprintf('No of bit errors: %d\n',x)
 fprintf('Original Image: Fig 1\n')
 fprintf('Viterbi Decoded Image: Fig 2\n')
@@ -72,7 +72,7 @@ end
 
 
 figure('Name','Decoded image for various SNR of convolutional encoded bits','NumberTitle','off'); 
-fprintf('Q4.\n')
+fprintf('\n')
 fprintf('Signal to Noise Ratio (SNR) is useful in judging the impact of noise on system performance\n')
 fprintf('It is seen that image quality degrades with lower SNR\n')
 fprintf('While hard decoding has a lower accuracy as compared to soft decoding\n')
@@ -124,7 +124,7 @@ k = 0;
 
 
 figure('Name','Decoded image for various SNR of original bits','NumberTitle','off'); 
-fprintf('Q5.\n')
+fprintf('\n')
 fprintf('Decoded image for various SNR of original bits:Fig 4\n')
 fprintf('\n')
 fprintf('Original Bits\n')
