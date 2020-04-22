@@ -1,0 +1,147 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%FourierAnalysis.m
+%
+%This code is used to illustrate relationship between time 
+%and frequency domain analysis of the signals 
+%
+%Author: Janani
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+close all
+time = 1;
+
+%% Time specifications:
+%Sampling Frequency
+Fs = 2000;                   % samples per second
+%Sampling Interval
+dt = 1/Fs;                   % seconds per sample
+%Duration of signal
+StopTime = 1;                % seconds
+%Time Interval
+n = (0:dt:StopTime-dt)';     % seconds
+
+%% Sine wave:
+%Frequencies of three sinusoidal signals in Hz
+Fc1 = 10;     
+Fc2 = 20;
+Fc3 = 50;     
+%Discrete sample signal x[n]
+x = cos(2*pi*Fc1*n) + cos(2*pi*Fc2*n) + cos(2*pi*Fc3*n);
+fprintf('Figure 1\n')
+fprintf('\n')
+% Plot the sample signal versus time:
+figure('Name', 'Discrete Sample Signal x[n]');
+plot(n,x);
+xlabel('time (in seconds)');
+ylabel('x[n]');
+title('Discrete Sample Signal x[n]');
+zoom xon;
+
+%% Fourier Transform
+%fft of x[n]
+X = fft(x);
+pause(time)
+fprintf('Figure 2\n')
+fprintf('\tWe observe that FFT gives even symmetric signal\n')
+fprintf('\n')
+nVals =(0:size(x)-1);
+% Plot the fft of signal versus frequency:
+figure('Name', 'X(f) : FFT of x[n]')
+stem(nVals,abs(X))
+xlabel('frequency (in Hz)')
+ylabel('X(f)')
+title('FFT of x[n]')
+zoom on
+
+pause(time)
+fprintf('Figure 3\n')
+fprintf('\tWe can clearly see the 3 frequency components 10Hz, 20Hz, 50Hz placed symmetrically around the y-axis\n')
+fprintf('\n')
+
+%fftshift of X(f)
+Z = fftshift(X);
+
+N = size(n,1);
+Fs = 2;
+dF = Fs/N; 
+f = (-Fs/2:dF:Fs/2-dF);
+% Plot the fftshift of signal versus frequency:
+figure('Name', 'X(f)');
+f_plot = f*1000;
+stem(f_plot,abs(Z));
+xlabel('frequency (in Hz)')
+ylabel('X(f)')
+title('X(f) after fftshift')
+zoom on
+
+%% Filter Transfer Function 
+pause(time)
+fprintf('Figure 4\n')
+fprintf('\tThe filter function consists of a band of frequency that will filter out the 20Hz frequency component\n')
+fprintf('\n')
+
+H = zeros(1,N);
+dF = Fs/N;                     
+f = (-Fs/2:dF:Fs/2-dF);
+t0 = 0.5;
+
+%Filter function
+for i = 1:N
+    if (i >= 15) && (i <= 35)
+        H(i) = 1;
+    end
+end
+
+dF1 = 0.0005;
+f1 = (-1/2:dF1:1/2-dF1);
+%Phase component
+e = (exp(-1i*2*pi*f1*t0));
+
+%Introducing phase component
+for i = 1:N
+ 
+    H(i) = H(i) * e(i);
+end
+
+H = abs(H);
+
+%Filter function for negative frequency components
+H = H + [zeros(1,size(f1(f1<=0),2)) 0.5*zeros(1,size(f1(f1>0),2))];
+x_full = [f1(f1<=0), -fliplr(f1(f1<0))];          
+y_full = [H(f1<=0),  fliplr(H(f1<0))];  
+
+% Plot the filter function vs phase:
+figure('Name', 'H(f): Filter function')
+stem(x_full, y_full)
+xlabel('phase');
+ylabel('H(f)');
+title('Filter function')
+zoom on
+
+%% Frequency domain filtering
+
+pause(time)
+fprintf('Figure 5\n')
+fprintf('\tFiltered output consists of only the 20Hz frequency component\n')
+fprintf('\n')
+
+%Multiplication of signal and filter function 
+for i = 1:N
+    Y(i) = H(i) * X(i);
+end
+
+Y = abs(Y);
+
+f1 = 40.81 * f1;
+
+Y = Y + [zeros(1,size(f1(f1<=0),2)) 0.5*zeros(1,size(f1(f1>0),2))];
+x_full = [f1(f1<=0), -fliplr(f1(f1<0))];          
+y_full = [Y(f1<=0),  fliplr(Y(f1<0))];  
+
+% Plot the filtered output:
+figure('Name', 'Filtered Output with only 20Hz')
+stem(x_full, y_full)
+xlabel('Frequency in Hz');
+ylabel('Y(f)');
+title('20Hz filtered output')
+zoom on
