@@ -19,7 +19,7 @@ end
 %SNR Values
 SNR = [0 3 6 9 12 15];
 k = 0;
-time = 5;
+time = 1;
 %Reading the image file
 I_in = imread(image_file);
 %Reshaping image matrix for processing
@@ -70,6 +70,9 @@ for i = 1:length(codedDataBipolar)
     end
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Decoded image for various SNR of convolutional encoded bits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 figure('Name','Decoded image for various SNR of convolutional encoded bits','NumberTitle','off'); 
 fprintf('\n')
@@ -120,9 +123,10 @@ for i = 1:length(dataBipolar)
     end
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Decoded image for various SNR of original bits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 k = 0;
-
-
 figure('Name','Decoded image for various SNR of original bits','NumberTitle','off'); 
 fprintf('\n')
 fprintf('Decoded image for various SNR of original bits:Fig 4\n')
@@ -156,6 +160,10 @@ imshow(I_out)
 title(['SNR ' num2str(i) ' dB'])
 end
 pause(time)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%BER vs SNR for convolutional encoded bits and original bits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fprintf('\n')
 fprintf('BER vs SNR for convolutional encoded bits and original bits: Fig 5\n')
